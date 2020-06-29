@@ -38,36 +38,6 @@ const driver = async(serverlessContext, serverlessEvent, twilioClient) => {
   }
 }
 
-/*
-const phoneNumberBuyingDriver = async(serverlessContext, serverlessEvent, twilioClient, result = []) => {
-  try {
-    const phoneNumbersLimit = serverlessEvent.limit ? serverlessEvent.limit : 1;
-    const availablePhoneNumbers = await getPhoneNumbers(serverlessContext, serverlessEvent, twilioClient, phoneNumbersLimit);
-
-    for(const anAvailablePhoneNumber of availablePhoneNumbers) {
-      try {
-        const aPhoneNumber = await buyPhoneNumbers(serverlessContext, serverlessEvent, twilioClient, anAvailablePhoneNumber);
-        result.push(aPhoneNumber);
-      } catch(e) {
-        if(e === ERROR_NOT_AVAILABLE_PHONE_NUMBER) {
-          continue;
-        } else {
-          throw e;
-        }
-      }
-    }
-
-    if(result.length != phoneNumbersLimit) {
-      return await phoneNumberBuyingDriver(serverlessContext, serverlessEvent, twilioClient, );
-    }
-
-    return result;
-  } catch (e) {
-    throw serverlessHelper.formatErrorMsg(serverlessContext, 'phoneNumberBuyingDriver', e);
-  }
-}
-*/
-
 const phoneNumberBuyingDriverRecursive = async (serverlessContext, serverlessEvent, twilioClient, phoneNumbers = [], phoneNumbersLimit = 1, callStackTracker = 0) => {
   try {
     const availablePhoneNumbers = await getPhoneNumbers(serverlessContext, serverlessEvent, twilioClient, phoneNumbersLimit);
